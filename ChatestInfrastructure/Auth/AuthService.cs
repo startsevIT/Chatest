@@ -13,7 +13,18 @@ public class AuthService
     {
         return new(Encoding.UTF8.GetBytes(SECRET));
     }
+    public static TokenValidationParameters BuildJwtTokenParameters()
+    {
+        return new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            IssuerSigningKey = GetSymmetricSecurityKey(),
+            ValidateIssuerSigningKey = true,
+            ValidateLifetime = true,
+        };
 
+    }
     public static string CreateToken(List<Claim> claims)
     {
         return new JwtSecurityTokenHandler().WriteToken(
@@ -23,13 +34,11 @@ public class AuthService
                 signingCredentials: new(GetSymmetricSecurityKey(), "HS256"))
             );
     }
-
     public static string HashPassword(string password)
     {
         byte[] hash = new Rfc2898DeriveBytes(password, 0).GetBytes(20);
         return Convert.ToBase64String(hash);
     }
-
     public static bool VerifyPassword(string password, string hashPassword)
     {
         return HashPassword(password) == hashPassword;
