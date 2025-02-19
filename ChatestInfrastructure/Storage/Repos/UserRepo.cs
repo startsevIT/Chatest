@@ -17,7 +17,7 @@ public class UserRepo : IUserRepo
         User user = await db.Users
             .FirstOrDefaultAsync(x => x.Login == dto.Login) 
             ?? throw new Exception("Not found User");
-        if(user.Password != dto.Password)
+        if(!AuthService.VerifyPassword(dto.Password,user.Password))
             throw new Exception("Not correct password");
 
         return AuthService.CreateToken([

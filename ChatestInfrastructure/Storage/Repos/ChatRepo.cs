@@ -18,7 +18,7 @@ public class ChatRepo : IChatRepo
         await db.SaveChangesAsync();
     }
 
-    public async Task<ReadChatDTO> ReadAsync(Guid id)
+    public async Task<ReadChatDTO> ReadAndLinkAsync(Guid id, Guid userId)
     {
         using SQLiteDbContext db = new();
 
@@ -27,6 +27,12 @@ public class ChatRepo : IChatRepo
             .Include(x => x.Users)
             .FirstOrDefaultAsync(x => x.Id == id) 
             ?? throw new Exception("Not found chat");
+
+        if(chat.Users.Find(x => x.Id == userId) == null) {
+            User user = await db.Users.FindAsync(userId) ?? throw new Exception("User not found");
+            chat.Users.Add(user);
+            await db.SaveChangesAsync();
+        }
 
         return chat.Map(chat.Messages, chat.Users);
     }

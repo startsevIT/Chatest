@@ -5,6 +5,6 @@ namespace ChatestDomain.BusinessLogic;
 public interface IChatRepo
 {
     Task CreateAsync(CreateChatDTO dto, Guid userId);
-    Task<ReadChatDTO> ReadAsync(Guid id);
+    Task<ReadChatDTO> ReadAndLinkAsync(Guid id, Guid userId);
 
 }
