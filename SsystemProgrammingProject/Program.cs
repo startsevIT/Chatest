@@ -16,6 +16,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseSwagger();
 app.UseSwaggerUI();
+app.UseWebSockets();
 
 UserRepo userRepo = new();
 app.MapPost("/users/register", async (RegisterUserDTO dto) =>
@@ -41,10 +42,8 @@ app.MapPost("/users/login", async (LoginUserDTO dto) =>
 		return Results.BadRequest(ex);
 	}
 });
-app.MapGet("/users/account",async (HttpContext ctx) =>
+app.MapGet("/users/account", [Authorize] async (HttpContext ctx) =>
 {
-	foreach (var item in ctx.Response.Headers)
-		Console.WriteLine(item.Key + " " + item.Value);
 	try
 	{
         Guid userId = new(ctx.User.FindFirst("id").Value);
@@ -82,6 +81,39 @@ app.MapGet("/chats/{chatId}", async (Guid chatId, HttpContext ctx) =>
 	{
 		return Results.NotFound(ex);
 	}
+});
+
+MessageRepo messageRepo = new();
+Hub hub = new ();
+app.Map("/connect/{roomId}", [Authorize] async (HttpContext context, Guid roomId) =>
+{
+    Guid userId = new(context.User.FindFirst("id").Value);
+
+	if (!await chatRepo.CheckUserAsync(roomId, userId))
+		return Results.NotFound();
+
+    var websocket = await context.WebSockets.AcceptWebSocketAsync();
+
+	hub.AddSocket(roomId, websocket);
+
+	var WSResult = await hub.ReceiveResultAsync(websocket);
+
+	while (!WSResult.CloseStatus.HasValue)
+	{
+		string messageText = hub.EncodingMessage(WSResult);
+
+        Guid messageId = await messageRepo.CreateAsync(new (messageText),userId, roomId);
+
+		ReadMessageDTO dto = await messageRepo.ReadAsync(messageId);
+
+		var bytes = MessageEncoder.MessageSerialize(dto);
+        await hub.SendAllAsync(roomId, WSResult, bytes);
+
+		WSResult = await hub.ReceiveResultAsync(websocket);
+	}
+
+    hub.RemoveSocket(roomId,websocket);
+	return Results.Ok();
 });
 
 app.Run();
