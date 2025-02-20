@@ -8,15 +8,18 @@ namespace ChatestInfrastructure.Storage.Repos;
 
 public class MessageRepo : IMessageRepo
 {
-    public async Task CreateAsync(CreateMessageDTO dto, Guid userId, Guid chatId)
+    public async Task<Guid> CreateAsync(CreateMessageDTO dto, Guid userId, Guid chatId)
     {
         using SQLiteDbContext db = new();
 
         User user = await db.Users.FindAsync(userId) ?? throw new Exception("Not found User");
         Chat chat = await db.Chats.FindAsync(chatId) ?? throw new Exception("Not found Chat");
 
-        await db.Messages.AddAsync(dto.Map(chat, user));
+        Message message = dto.Map(chat, user);
+
+        await db.Messages.AddAsync(message);
         await db.SaveChangesAsync();
+        return message.Id;
     }
 
     public async Task<ReadMessageDTO> ReadAsync(Guid id)
