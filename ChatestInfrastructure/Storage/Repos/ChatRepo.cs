@@ -36,4 +36,21 @@ public class ChatRepo : IChatRepo
 
         return chat.Map(chat.Messages, chat.Users);
     }
+
+    public async Task<bool> CheckUserAsync(Guid id, Guid userId)
+    {
+        using SQLiteDbContext db = new();
+
+        Chat chat = await db.Chats
+            .Include(x => x.Users)
+            .FirstOrDefaultAsync(x => x.Id == id) ?? throw new Exception("Not found chat");
+
+        User user = await db.Users.FindAsync(userId) 
+            ?? throw new Exception("Not found user");
+
+        if (!chat.Users.Contains(user))
+            return false;
+
+        return true;
+    }
 }
