@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="account.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <title>Личный кабинет</title>
 </head>
 <body>
@@ -30,92 +33,13 @@
 
     </div>
 </body>
-<style>
-    * {
-        padding: 0;
-        margin: 0;
-    }
-    body {
-        display: grid;
-        grid-template-areas: 
-        "account chats"
-        "create_chat chats";
-        height: 100vh;
-        grid-template-columns: 2fr 1fr;
-    }
-    .account {
-        border-color: black;
-        border-width: 1px;
-        border-style: solid;
-
-        border: 3px solid black;
-
-        min-width: 10px;
-        min-height: 10px;
-        grid-area: account;
-        margin: 10px;
-        padding: 10px;
-    }
-    .avatar {
-        height: 100px;
-        width: 100px;
-        border: 2px solid black;
-        border-radius: 50px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 34px;
-    }
-    .account_box {
-        display: flex;
-        gap: 15px;
-    }
-
-    .account_info {
-        font-size: large;
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        margin-top: 15px;
-    }
-    .chats {
-        border: 3px solid black;
-        min-width: 10px;
-        min-height: 10px;
-        grid-area: chats;
-        margin: 10px;
-        padding: 10px;
-    }
-    .chat {
-        border: 2px solid black;
-        border-radius: 5px;
-        font-size: 40px;
-        padding-inline: 25px;
-    }
-    .chats_list {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
-    .chat:hover {
-        background-color: aqua;
-        cursor: pointer;
-    }
-    .create_chat {
-        background-color: brown;
-        min-width: 10px;
-        min-height: 10px;
-        grid-area: create_chat;
-        margin: 10px;
-    }
-</style>
 <script>
     GetMyAccount();
 
     async function GetMyAccount() {
         let token = sessionStorage.getItem("token").replaceAll("\"","");
 
-        let result = await fetch("https://localhost:7086/users/account", {
+        let result = await fetch("https://localhost:5500/users/account", {
             method: "GET",
             headers: {
                 "Authorization" : "Bearer " + token

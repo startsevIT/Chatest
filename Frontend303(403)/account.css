@@ -1,0 +1,196 @@
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --border-radius-lg: 1.25rem;
+    --spacing-base: 1rem;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    display: grid;
+    grid-template-areas: 
+    "account chats"
+    "create_chat chats";
+    height: 100vh;
+    grid-template-columns: 2fr 1fr;
+    background: var(--primary-gradient);
+    font-size: 16px;
+}
+
+.account, .chats, .create_chat {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(0.625rem);
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.1);
+    min-width: 10%;
+    min-height: 10%;
+    margin: calc(var(--spacing-base) * 1.25);
+    padding: calc(var(--spacing-base) * 1.875);
+    overflow: hidden;
+}
+
+.account {
+    grid-area: account;
+    transition: transform 0.3s ease;
+}
+
+.account:hover {
+    transform: translateY(-0.3125em);
+}
+
+.account h2, .chats h2 {
+    color: #2d3436;
+    margin-bottom: 1.5625em;
+    font-size: 2rem;
+    font-weight: 600;
+    position: relative;
+}
+
+.account h2::after, .chats h2::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.5em;
+    width: 3.75em;
+    height: 0.25em;
+    background: var(--primary-gradient);
+    border-radius: 0.125em;
+}
+
+.avatar {
+    height: 8.75em;
+    width: 8.75em;
+    border: 0.25em solid #764ba2;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    background: var(--primary-gradient);
+    color: white;
+    text-transform: uppercase;
+    box-shadow: 0 0.25em 0.9375em rgba(118, 75, 162, 0.3);
+    transition: all 0.3s ease;
+}
+
+.avatar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0.5em 1.5625em rgba(118, 75, 162, 0.4);
+}
+
+.account_box {
+    display: flex;
+    gap: 1.875em;
+    align-items: center;
+}
+
+.account_info {
+    font-size: 1.125rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25em;
+    margin-top: 0.9375em;
+    color: #2d3436;
+}
+
+.account_info div {
+    padding: 0.9375em;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 0.75em;
+    box-shadow: 0 0.25em 0.9375em rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.account_info div:hover {
+    transform: translateX(0.3125em);
+}
+
+.chats {
+    grid-area: chats;
+}
+
+.chat {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 0.9375em;
+    font-size: 1.125rem;
+    padding: 1.25em 1.5625em;
+    transition: all 0.3s ease;
+    box-shadow: 0 0.25em 0.9375em rgba(0, 0, 0, 0.05);
+    color: #2d3436;
+    position: relative;
+    overflow: hidden;
+}
+
+.chat::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0.25em;
+    height: 100%;
+    background: var(--primary-gradient);
+    border-radius: 0.125em;
+}
+
+.chats_list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9375em;
+}
+
+.chat:hover {
+    transform: translateX(0.3125em);
+    background: var(--primary-gradient);
+    color: white;
+    cursor: pointer;
+}
+
+.create_chat {
+    grid-area: create_chat;
+}
+
+@media (max-width: 768px) {
+    body {
+        grid-template-areas: 
+        "account"
+        "chats"
+        "create_chat";
+        grid-template-columns: 1fr;
+    }
+
+    .account, .chats, .create_chat {
+        margin: calc(var(--spacing-base) * 0.75);
+        padding: calc(var(--spacing-base) * 1.25);
+    }
+
+    .avatar {
+        height: 6em;
+        width: 6em;
+        font-size: 2rem;
+    }
+
+    .account h2, .chats h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    html {
+        font-size: 14px;
+    }
+
+    .account_box {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .account h2::after, .chats h2::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}

@@ -1,59 +1,90 @@
 * {
     padding: 0;
-    margin: 0;    
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
 body {
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color:rgb(207, 207, 207);
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
+
 .LoginForm,
-.RegisterForm  {
+.RegisterForm {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    height: calc(100vh/2);
-    width: calc(100vw/2);
+    gap: 1.25rem;
+    padding: 2.5rem;
+    width: min(90%, 25rem);
     align-items: center;
     justify-content: center;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 1.25rem;
+    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.1);
 }
+
 input {
     text-align: center;
-    height: 25px;
-    border-color: rgb(140, 140, 199);
-    border-radius: 10px;
-    background-color: rgb(177, 231, 231);
-    width: 50%;
+    height: 2.8rem;
+    width: 100%;
+    padding: 0 1rem;
+    border: 0.125rem solid #e1e1e1;
+    border-radius: 0.5rem;
+    background-color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
 }
+
 input::placeholder {
-    color: rgb(140, 140, 199);
+    color: #9ca3af;
 }
+
 input:focus {
     outline: none;
-    border-color: rgb(0, 0, 255);
+    border-color: #6366f1;
+    box-shadow: 0 0 0 0.188rem rgba(99, 102, 241, 0.1);
 }
+
 button {
-    height: 25px;
-    border-color: rgb(140, 140, 199);
-    border-radius: 10px;
-    background-color: rgb(255, 255, 255);
-    width: 100px;
-    color:rgb(112, 112, 188); 
+    height: 2.8rem;
+    width: 100%;
+    border: none;
+    border-radius: 0.5rem;
+    background-color: #6366f1;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
+
 button:hover {
-    outline: none;
-    border-color: rgb(0, 0, 255);
+    background-color: #4f46e5;
+    transform: translateY(-0.063rem);
 }
+
+button:active {
+    transform: translateY(0.063rem);
+}
+
 h2 {
-    color:rgb(112, 112, 188);
+    color: #374151;
+    font-size: 1.5rem;
+    margin-bottom: 0.625rem;
 }
+
 a {
     text-decoration: none;
-    color:rgb(112, 112, 188); 
-    text-align: center;
+    color: #6366f1;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
 }
+
 a:hover {
-    color:rgb(55, 55, 141); 
+    color: #4f46e5;
+    text-decoration: underline;
 }
