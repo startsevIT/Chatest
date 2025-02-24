@@ -9,3 +9,8 @@ public class Message
     public User User { get; set; } // Пользователь, который отправил сообщение
     public DateTime DateTime { get; set; } // Время отправки сообщения
 }
+
+
+
+
+

@@ -10,7 +10,6 @@ namespace ChatestInfrastructure.Storage.Repos;
 public class MessageRepo : IMessageRepo
 {
     // Создание нового сообщения
-    public async Task CreateAsync(CreateMessageDTO dto, Guid userId, Guid chatId)
     public async Task<Guid> CreateAsync(CreateMessageDTO dto, Guid userId, Guid chatId)
     {
         using SQLiteDbContext db = new();

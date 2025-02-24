@@ -11,6 +11,12 @@ namespace ChatestInfrastructure.Storage.Repos;
 // Репозиторий для работы с пользователями
 public class UserRepo : IUserRepo
 {
+    public async Task<List<ReadForChatUserDTO>> ListAsync()
+    {
+        using SQLiteDbContext db = new();
+        return await db.Users.Select(x => x.Map()).ToListAsync();
+    }
+
     // Авторизация пользователя (логин)
     public async Task<string> LoginAsync(LoginUserDTO dto)
     {

@@ -13,4 +13,5 @@ public interface IUserRepo
 
     // Метод для получения информации о пользователе по его идентификатору
     Task<ReadForAccountUserDTO> ReadAsync(Guid id);
+    Task<List<ReadForChatUserDTO>> ListAsync();
 }

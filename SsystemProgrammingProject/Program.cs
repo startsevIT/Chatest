@@ -3,7 +3,9 @@ using ChatestInfrastructure.Auth;
 using ChatestInfrastructure.Storage.Repos;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using SsystemProgrammingProject.Helpers;
 using SsystemProgrammingProject.Swagger;
+using SsystemProgrammingProject.WebSockets;
 
 var builder = WebApplication.CreateBuilder();
 
@@ -15,6 +17,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // Добавление Swagger с настройками безопасности
 builder.Services.AddSwaggerGen(SwaggerConfig.GenerateOptions);
 
+builder.Services.AddCors();
+
+
 var app = builder.Build();
 
 // Подключение middleware для аутентификации и авторизации
@@ -25,6 +30,11 @@ app.UseAuthorization();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseWebSockets();
+
+app.UseCors(options =>
+    options.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+
+
 
 // Репозиторий для работы с пользователями
 UserRepo userRepo = new();
@@ -39,7 +49,7 @@ app.MapPost("/users/register", async (RegisterUserDTO dto) =>
     }
     catch (Exception ex)
     {
-        return Results.BadRequest(ex); // Возвращаем ошибку, если регистрация не удалась
+        return Results.BadRequest(ex.Message); // Возвращаем ошибку, если регистрация не удалась
     }
 });
 
@@ -52,12 +62,11 @@ app.MapPost("/users/login", async (LoginUserDTO dto) =>
     }
     catch (Exception ex)
     {
-        return Results.BadRequest(ex);
+        return Results.BadRequest(ex.Message);
     }
 });
 
 // Получение информации о текущем пользователе
-app.MapGet("/users/account", async (HttpContext ctx) =>
 app.MapGet("/users/account", [Authorize] async (HttpContext ctx) =>
 {
     // Вывод заголовков ответа в консоль (для отладки)
@@ -73,17 +82,14 @@ app.MapGet("/users/account", [Authorize] async (HttpContext ctx) =>
     {
         return Results.NotFound(ex);
     }
-	try
-	{
-        Guid userId = new(ctx.User.FindFirst("id").Value);
-        return Results.Ok(await userRepo.ReadAsync(userId));
-	}
-	catch (Exception ex)
-	{
-
-		return Results.NotFound(ex);
-	}
 });
+
+app.MapGet("/users", async () =>
+{
+    return await userRepo.ListAsync();
+});
+
+
 
 // Репозиторий для работы с чатами
 ChatRepo chatRepo = new();
@@ -104,7 +110,7 @@ app.MapPost("/chats", [Authorize] async (CreateChatDTO dto, HttpContext ctx) =>
 });
 
 // Получение информации о чате (проверка наличия пользователя в чате)
-app.MapGet("/chats/{chatId}", async (Guid chatId, HttpContext ctx) =>
+app.MapGet("/chats/{chatId}", [Authorize] async (Guid chatId, HttpContext ctx) =>
 {
 	try
 	{
@@ -116,6 +122,8 @@ app.MapGet("/chats/{chatId}", async (Guid chatId, HttpContext ctx) =>
 		return Results.NotFound(ex);
 	}
 });
+
+
 
 MessageRepo messageRepo = new();
 Hub hub = new ();
