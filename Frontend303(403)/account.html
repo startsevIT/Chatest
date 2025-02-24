@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Личный кабинет</title>
+</head>
+<body>
+    <div class="account">
+        <h2>Личный кабинет</h2>
+        <div class="account_box">
+            <div id="avatar" class="avatar"></div>
+            <div class="account_info">
+                <div class="nickname">
+                    Имя: <span id="nickname"></span>
+                </div>
+                <div class="login">
+                    Логин: <span id="login"></span>
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+    <div class="chats">
+        <h2>Чаты:</h2>
+        <div id="chats_list" class="chats_list">
+            <div onclick="" class="chat">Чат с группой</div>
+        </div>
+    </div>
+    <div class="create_chat">
+
+    </div>
+</body>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+    body {
+        display: grid;
+        grid-template-areas: 
+        "account chats"
+        "create_chat chats";
+        height: 100vh;
+        grid-template-columns: 2fr 1fr;
+    }
+    .account {
+        border-color: black;
+        border-width: 1px;
+        border-style: solid;
+
+        border: 3px solid black;
+
+        min-width: 10px;
+        min-height: 10px;
+        grid-area: account;
+        margin: 10px;
+        padding: 10px;
+    }
+    .avatar {
+        height: 100px;
+        width: 100px;
+        border: 2px solid black;
+        border-radius: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 34px;
+    }
+    .account_box {
+        display: flex;
+        gap: 15px;
+    }
+
+    .account_info {
+        font-size: large;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 15px;
+    }
+    .chats {
+        border: 3px solid black;
+        min-width: 10px;
+        min-height: 10px;
+        grid-area: chats;
+        margin: 10px;
+        padding: 10px;
+    }
+    .chat {
+        border: 2px solid black;
+        border-radius: 5px;
+        font-size: 40px;
+        padding-inline: 25px;
+    }
+    .chats_list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    .chat:hover {
+        background-color: aqua;
+        cursor: pointer;
+    }
+    .create_chat {
+        background-color: brown;
+        min-width: 10px;
+        min-height: 10px;
+        grid-area: create_chat;
+        margin: 10px;
+    }
+</style>
+<script>
+    GetMyAccount();
+
+    async function GetMyAccount() {
+        let token = sessionStorage.getItem("token").replaceAll("\"","");
+
+        let result = await fetch("https://localhost:7086/users/account", {
+            method: "GET",
+            headers: {
+                "Authorization" : "Bearer " + token
+            }
+        });
+
+        let accountInfo = await result.json();
+
+        document.getElementById("nickname").append(accountInfo.nickName);
+        document.getElementById("login").append(accountInfo.login);
+        document.getElementById("avatar").append(accountInfo.nickName.substring(0,2));
+
+        let chats_list = document.getElementById("chats_list");
+
+        accountInfo.chats.forEach(chat => {
+            let chatDiv = document.createElement('div');
+
+            chatDiv.setAttribute("onclick",ToChat);
+            chatDiv.setAttribute("class","chat");
+            chatDiv.setAttribute("id",chat.id);
+
+            chatDiv.append(chat.name);
+
+            chats_list.append(chatDiv);
+        });
+    }
+    function ToChat(id)
+    {
+        console.log(id);
+    }
+</script>
+</html>

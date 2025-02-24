@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css"/>
+    <title>Регистрация</title>
+</head>
+<body>
+    <div class="RegisterForm">
+        <h2>Регистрация</h2>
+        <input id="nickname" placeholder="Имя"/>
+        <input id="login" placeholder="Логин"/>
+        <input id="password" placeholder="Пароль"/>
+        <button onclick="Register()">Регистрация</button>
+        <a href="login.html">Уже есть аккаунт? Войдите</a>
+    </div>
+</body>
+<script>
+    async function Register() {
+        let nickname = document.getElementById("nickname").value;
+        let login = document.getElementById("login").value;
+        let password = document.getElementById("password").value;
+
+        let result = await fetch("https://localhost:7086/users/register", 
+        { 
+            method: "POST",
+            headers: {
+                "Content-Type" : "application/json"
+            },
+            body: JSON.stringify({
+                NickName : nickname,
+                Login : login,
+                Password : password
+            })
+        });
+
+        if(result.ok) {
+            alert("Пользователь успешно зарегистрирован");
+            window.location = "login.html";
+        }
+        else
+            alert(await result.text())
+    }
+</script>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css"/>
+    <title>Вход</title>
+</head>
+<body>
+    <div class="LoginForm">
+        <h2>Вход</h2>
+        <input id="login" placeholder="Логин"/>
+        <input id="password" placeholder="Пароль"/>
+        <button onclick="Login()">Вход</button>
+        <a href="register.html">Еще нет аккаунта? Зарегистрируйтесь</a>
+    </div>
+</body>
+<script>
+    async function Login() {
+        let login = document.getElementById("login").value;
+        let password = document.getElementById("password").value;
+
+        let result = await fetch("https://localhost:7086/users/login", 
+        { 
+            method: "POST",
+            headers: {
+                "Content-Type" : "application/json"
+            },
+            body: JSON.stringify({
+                Login : login,
+                Password : password
+            })
+        });
+        if(result.ok) {
+            let token = await result.text();
+            sessionStorage.setItem("token", token) 
+            alert("Успешный вход");
+            window.location = "account.html";
+        }
+        else {
+            alert(await result.text())
+        }
+    }
+</script>
+</html>

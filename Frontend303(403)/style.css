@@ -1,0 +1,59 @@
+* {
+    padding: 0;
+    margin: 0;    
+}
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:rgb(207, 207, 207);
+}
+.LoginForm,
+.RegisterForm  {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    height: calc(100vh/2);
+    width: calc(100vw/2);
+    align-items: center;
+    justify-content: center;
+}
+input {
+    text-align: center;
+    height: 25px;
+    border-color: rgb(140, 140, 199);
+    border-radius: 10px;
+    background-color: rgb(177, 231, 231);
+    width: 50%;
+}
+input::placeholder {
+    color: rgb(140, 140, 199);
+}
+input:focus {
+    outline: none;
+    border-color: rgb(0, 0, 255);
+}
+button {
+    height: 25px;
+    border-color: rgb(140, 140, 199);
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255);
+    width: 100px;
+    color:rgb(112, 112, 188); 
+}
+button:hover {
+    outline: none;
+    border-color: rgb(0, 0, 255);
+}
+h2 {
+    color:rgb(112, 112, 188);
+}
+a {
+    text-decoration: none;
+    color:rgb(112, 112, 188); 
+    text-align: center;
+}
+a:hover {
+    color:rgb(55, 55, 141); 
+}
