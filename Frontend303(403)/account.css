@@ -1,150 +1,178 @@
+/* Глобальные переменные для повторяющихся значений */
 :root {
+    /* Градиент используется для фона и акцентов */
     --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --border-radius-lg: 1.25rem;
-    --spacing-base: 1rem;
+    --border-radius-lg: 1.25rem; /* 20px - для основных блоков */
+    --spacing-base: 1rem; /* 16px - базовый отступ, от него рассчитываются остальные */
 }
 
+/* Сброс стандартных стилей и установка box-sizing */
 * {
     padding: 0;
     margin: 0;
     font-family: 'Poppins', sans-serif;
+    /* border-box учитывает padding и border внутри width/height элемента */
     box-sizing: border-box;
 }
 
+/* Основной layout сетки */
 body {
     display: grid;
+    /* grid-template-areas определяет расположение блоков в сетке:
+       account    chats
+       create_chat chats */
     grid-template-areas: 
     "account chats"
     "create_chat chats";
-    height: 100vh;
-    grid-template-columns: 2fr 1fr;
+    height: 100vh; /* 100% высоты viewport - всегда занимает весь экран */
+    grid-template-columns: 2fr 1fr; /* fr - это fraction (часть). 2fr:1fr значит разделение в пропорции 2:1 */
     background: var(--primary-gradient);
-    font-size: 16px;
+    font-size: 16px; /* Базовый размер шрифта - все em/rem значения рассчитываются от него */
 }
 
+/* Общие стили для основных блоков */
 .account, .chats, .create_chat {
+    /* Полупрозрачный белый фон */
     background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(0.625rem);
+    /* Размытие фона под элементом для эффекта матового стекла */
+    backdrop-filter: blur(0.625rem); /* 10px */
     border-radius: var(--border-radius-lg);
-    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.1);
+    /* Многослойная тень: смещение по x y, размытие, spread, цвет */
+    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.1); /* 8px 32px */
     min-width: 10%;
     min-height: 10%;
-    margin: calc(var(--spacing-base) * 1.25);
-    padding: calc(var(--spacing-base) * 1.875);
-    overflow: hidden;
+    /* calc позволяет умножать базовый отступ для создания пропорциональных величин */
+    margin: calc(var(--spacing-base) * 1.25); /* 16px * 1.25 = 20px */
+    padding: calc(var(--spacing-base) * 1.875); /* 16px * 1.875 = 30px */
+    overflow: hidden; /* Обрезает содержимое, выходящее за границы блока */
 }
 
+/* Стили для блока аккаунта */
 .account {
-    grid-area: account;
+    grid-area: account; /* Привязка к области сетки, определенной в grid-template-areas */
+    /* Плавная анимация для transform длительностью 0.3s */
     transition: transform 0.3s ease;
 }
 
 .account:hover {
-    transform: translateY(-0.3125em);
+    /* Отрицательное значение поднимает элемент вверх */
+    transform: translateY(-0.3125em); /* -5px */
 }
 
+/* Стили заголовков */
 .account h2, .chats h2 {
     color: #2d3436;
-    margin-bottom: 1.5625em;
-    font-size: 2rem;
+    margin-bottom: 1.5625em; /* 25px = 16px * 1.5625 */
+    font-size: 2rem; /* 32px - относительно базового размера шрифта html */
     font-weight: 600;
-    position: relative;
+    position: relative; /* Для позиционирования декоративной линии */
 }
 
+/* Декоративная линия под заголовками */
 .account h2::after, .chats h2::after {
-    content: '';
+    content: ''; /* Обязательно для псевдоэлементов */
     position: absolute;
     left: 0;
-    bottom: -0.5em;
-    width: 3.75em;
-    height: 0.25em;
+    bottom: -0.5em; /* -8px относительно размера шрифта заголовка */
+    width: 3.75em; /* 60px */
+    height: 0.25em; /* 4px */
     background: var(--primary-gradient);
-    border-radius: 0.125em;
+    border-radius: 0.125em; /* 2px */
 }
 
+/* Стили для аватара */
 .avatar {
-    height: 8.75em;
-    width: 8.75em;
-    border: 0.25em solid #764ba2;
-    border-radius: 50%;
+    height: 8.75em; /* 140px = 16px * 8.75 */
+    width: 8.75em; /* 140px */
+    border: 0.25em solid #764ba2; /* 4px */
+    border-radius: 50%; /* Создает круг */
+    /* Центрирование содержимого по вертикали и горизонтали */
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 3rem;
+    font-size: 3rem; /* 48px - rem всегда относится к размеру шрифта root элемента */
     background: var(--primary-gradient);
     color: white;
     text-transform: uppercase;
-    box-shadow: 0 0.25em 0.9375em rgba(118, 75, 162, 0.3);
+    /* Сложная тень с прозрачностью */
+    box-shadow: 0 0.25em 0.9375em rgba(118, 75, 162, 0.3); /* 4px 15px */
+    /* Анимация всех свойств при изменении */
     transition: all 0.3s ease;
 }
 
 .avatar:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0.5em 1.5625em rgba(118, 75, 162, 0.4);
+    transform: scale(1.05); /* Увеличение размера на 5% */
+    box-shadow: 0 0.5em 1.5625em rgba(118, 75, 162, 0.4); /* 8px 25px - увеличенная тень */
 }
 
+/* Контейнер для аватара и информации */
 .account_box {
     display: flex;
-    gap: 1.875em;
+    gap: 1.875em; /* 30px - пространство между элементами */
     align-items: center;
 }
 
+/* Блок информации об аккаунте */
 .account_info {
-    font-size: 1.125rem;
+    font-size: 1.125rem; /* 18px */
     display: flex;
     flex-direction: column;
-    gap: 1.25em;
-    margin-top: 0.9375em;
+    gap: 1.25em; /* 20px - пространство между элементами */
+    margin-top: 0.9375em; /* 15px */
     color: #2d3436;
 }
 
 .account_info div {
-    padding: 0.9375em;
+    padding: 0.9375em; /* 15px */
     background: rgba(255, 255, 255, 0.9);
-    border-radius: 0.75em;
-    box-shadow: 0 0.25em 0.9375em rgba(0, 0, 0, 0.05);
+    border-radius: 0.75em; /* 12px */
+    box-shadow: 0 0.25em 0.9375em rgba(0, 0, 0, 0.05); /* 4px 15px */
     transition: transform 0.3s ease;
 }
 
 .account_info div:hover {
-    transform: translateX(0.3125em);
+    transform: translateX(0.3125em); /* 5px сдвиг вправо */
 }
 
+/* Стили для блока чатов */
 .chats {
     grid-area: chats;
 }
 
+/* Стили для отдельного чата */
 .chat {
     background: rgba(255, 255, 255, 0.9);
-    border-radius: 0.9375em;
-    font-size: 1.125rem;
-    padding: 1.25em 1.5625em;
+    border-radius: 0.9375em; /* 15px */
+    font-size: 1.125rem; /* 18px */
+    padding: 1.25em 1.5625em; /* 20px 25px */
     transition: all 0.3s ease;
-    box-shadow: 0 0.25em 0.9375em rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0.25em 0.9375em rgba(0, 0, 0, 0.05); /* 4px 15px */
     color: #2d3436;
     position: relative;
     overflow: hidden;
 }
 
+/* Декоративная полоса слева от чата */
 .chat::before {
     content: '';
     position: absolute;
     left: 0;
     top: 0;
-    width: 0.25em;
+    width: 0.25em; /* 4px */
     height: 100%;
     background: var(--primary-gradient);
-    border-radius: 0.125em;
+    border-radius: 0.125em; /* 2px */
 }
 
+/* Список чатов */
 .chats_list {
     display: flex;
     flex-direction: column;
-    gap: 0.9375em;
+    gap: 0.9375em; /* 15px - пространство между чатами */
 }
 
 .chat:hover {
-    transform: translateX(0.3125em);
+    transform: translateX(0.3125em); /* 5px сдвиг вправо */
     background: var(--primary-gradient);
     color: white;
     cursor: pointer;
@@ -154,43 +182,52 @@ body {
     grid-area: create_chat;
 }
 
+/* Адаптивная верстка для планшетов */
 @media (max-width: 768px) {
     body {
+        /* Перестраиваем сетку в одну колонку */
         grid-template-areas: 
         "account"
         "chats"
         "create_chat";
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* 1fr занимает все доступное пространство */
     }
 
+    /* Уменьшаем размеры и отступы для меньших экранов */
     .account, .chats, .create_chat {
-        margin: calc(var(--spacing-base) * 0.75);
-        padding: calc(var(--spacing-base) * 1.25);
+        margin: calc(var(--spacing-base) * 0.75); /* 12px */
+        padding: calc(var(--spacing-base) * 1.25); /* 20px */
     }
 
     .avatar {
-        height: 6em;
-        width: 6em;
-        font-size: 2rem;
+        height: 6em; /* 96px при базовом размере 16px */
+        width: 6em; /* 96px */
+        font-size: 2rem; /* 32px */
     }
 
     .account h2, .chats h2 {
-        font-size: 1.5rem;
+        font-size: 1.5rem; /* 24px */
     }
 }
 
+/* Адаптивная верстка для мобильных устройств */
 @media (max-width: 480px) {
     html {
-        font-size: 14px;
+        /* Уменьшаем базовый размер шрифта, что влияет на все em/rem значения */
+        font-size: 14px; /* Все относительные размеры автоматически пересчитываются */
     }
 
     .account_box {
+        /* Меняем направление flex с row на column */
         flex-direction: column;
         text-align: center;
     }
 
     .account h2::after, .chats h2::after {
         left: 50%;
+        /* Центрируем декоративную линию, смещая на половину её ширины влево */
         transform: translateX(-50%);
     }
 }
+
+/* Адаптивное просто пример для примера, можно поиграться с отладкой и увидеть как себя ведет сайт на разных устройствах */
