@@ -1,59 +1,149 @@
+/* Сброс стилей и базовые настройки */
 * {
+    /* Сброс отступов для предсказуемого поведения */
     padding: 0;
-    margin: 0;    
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+/* Стили для тела страницы */
 body {
+    /* 100vh = 100% высоты viewport (видимой области)
+       Используется вместо height: 100% для гарантированного заполнения экрана */
     height: 100vh;
+    /* Flexbox для центрирования содержимого по вертикали и горизонтали */
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color:rgb(207, 207, 207);
+    /* Градиент под углом 135° для визуального интереса */
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
+
+/* Общие стили для форм */
 .LoginForm,
-.RegisterForm  {
+.RegisterForm {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    height: calc(100vh/2);
-    width: calc(100vw/2);
+    /* 1.25rem = 20px - отступ между элементами формы
+       Использование rem обеспечивает масштабируемость с размером шрифта */
+    gap: 1.25rem;
+    /* 2.5rem = 40px - внутренние отступы формы
+       Больше чем gap для создания "воздуха" вокруг контента */
+    padding: 2.5rem;
+    /* min(90%, 25rem) выбирает меньшее значение:
+       90% - адаптивная ширина на маленьких экранах
+       25rem = 400px - максимальная ширина на больших экранах */
+    width: min(90%, 25rem);
     align-items: center;
     justify-content: center;
+    /* Полупрозрачный фон (95% непрозрачности) */
+    background: rgba(255, 255, 255, 0.95);
+    /* 1.25rem = 20px - скругление углов
+       Пропорционально размеру формы */
+    border-radius: 1.25rem;
+    /* Тень для эффекта "парения":
+       0.5rem = 8px (вертикальное смещение)
+       2rem = 32px (размытие) */
+    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.1);
 }
+
+
+
+/* Стили для полей ввода */
 input {
     text-align: center;
-    height: 25px;
-    border-color: rgb(140, 140, 199);
-    border-radius: 10px;
-    background-color: rgb(177, 231, 231);
-    width: 50%;
+    /* 2.8rem = 44.8px - высота поля
+       Достаточно для удобного касания на мобильных (мин. 44px) */
+    height: 2.8rem;
+    /* 100% ширины родительского контейнера */
+    width: 100%;
+    /* 1rem = 16px - горизонтальные отступы внутри поля
+       Обеспечивает хорошую читаемость текста */
+    padding: 0 1rem;
+    /* 0.125rem = 2px - толщина рамки
+       Тонкая, но заметная граница */
+    border: 0.125rem solid #e1e1e1;
+    /* 0.5rem = 8px - скругление углов
+       Умеренное скругление для современного вида */
+    border-radius: 0.5rem;
+    background-color: white;
+    /* 1rem = 16px - стандартный размер текста */
+    font-size: 1rem;
+    /* Плавная анимация всех свойств */
+    transition: all 0.3s ease;
 }
+
+/* Стиль для placeholder */
 input::placeholder {
-    color: rgb(140, 140, 199);
+    color: #9ca3af;
 }
+
+/* Стили при фокусе */
 input:focus {
     outline: none;
-    border-color: rgb(0, 0, 255);
+    border-color: #6366f1;
+    /* 0.188rem = 3px - толщина свечения при фокусе
+       Тонкий эффект для визуальной обратной связи */
+    box-shadow: 0 0 0 0.188rem rgba(99, 102, 241, 0.1);
 }
+
+/* Стили для кнопок */
 button {
-    height: 25px;
-    border-color: rgb(140, 140, 199);
-    border-radius: 10px;
-    background-color: rgb(255, 255, 255);
-    width: 100px;
-    color:rgb(112, 112, 188); 
+    /* 2.8rem = 44.8px - высота кнопки
+       Соответствует высоте input для визуальной согласованности */
+    height: 2.8rem;
+    width: 100%;
+    border: none;
+    /* 0.5rem = 8px - скругление как у input */
+    border-radius: 0.5rem;
+    background-color: #6366f1;
+    color: white;
+    /* 1rem = 16px - размер текста как у input */
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
+
+/* Эффекты при наведении */
 button:hover {
-    outline: none;
-    border-color: rgb(0, 0, 255);
+    background-color: #4f46e5;
+    /* -0.063rem = -1px - лёгкий сдвиг вверх
+       Микроанимация для интерактивности */
+    transform: translateY(-0.063rem);
 }
+
+/* Эффекты при нажатии */
+button:active {
+    /* 0.063rem = 1px - сдвиг вниз
+       Создаёт эффект физического нажатия */
+    transform: translateY(0.063rem);
+}
+
+/* Стили для заголовков */
 h2 {
-    color:rgb(112, 112, 188);
+    color: #374151;
+    /* 1.5rem = 24px - размер заголовка
+       В 1.5 раза больше базового размера для иерархии */
+    font-size: 1.5rem;
+    /* 0.625rem = 10px - отступ снизу
+       Создаёт пространство между заголовком и контентом */
+    margin-bottom: 0.625rem;
 }
+
+/* Стили для ссылок */
 a {
     text-decoration: none;
-    color:rgb(112, 112, 188); 
-    text-align: center;
+    color: #6366f1;
+    /* 0.875rem = 14px - размер текста ссылки
+       Чуть меньше основного текста для визуальной иерархии */
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
 }
+
+/* Эффекты при наведении на ссылку */
 a:hover {
-    color:rgb(55, 55, 141); 
+    color: #4f46e5;
+    text-decoration: underline;
 }
